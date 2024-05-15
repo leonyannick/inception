@@ -13,11 +13,7 @@ echo "connection succesfull"
 
 wp core download --allow-root
 
-echo "config create --allow-root \
-				--dbname=$SQL_DATABASE \
-				--dbuser=$SQL_USER \
-				--dbpass=$(cat $SQL_USER_PW_FILE) \
-				--dbhost=$DB_HOST:$DB_HOST_PORT"
+echo "config create --allow-root --dbname=$SQL_DATABASE --dbuser=$SQL_USER --dbpass=$(cat $SQL_USER_PW_FILE) --dbhost=$DB_HOST:$DB_HOST_PORT"
 
 wp config create --allow-root \
 				--dbname=$SQL_DATABASE \
@@ -25,12 +21,14 @@ wp config create --allow-root \
 				--dbpass=$(cat $SQL_USER_PW_FILE) \
 				--dbhost=$DB_HOST:$DB_HOST_PORT
 
-# wp core install --url=$DOMAIN_NAME \
-# 							  --title=$SITE_TITLE \
-# 							  --admin_user=$WP_ADMIN \
-# 							  --admin_password=$(cat $WP_ADMIN_PW_FILE) \
-# 							  --admin_email=$WP_ADMIN_EMAIL \
-# 							  --allow-root
+# echo "--url=$DOMAIN_NAME  --title=$SITE_TITLE   --admin_user=$WP_ADMIN   --admin_password=$(cat $WP_ADMIN_PW_FILE)   --admin_email=$WP_ADMIN_EMAIL   --allow-root"
+
+wp core install --url=localhost:8443 \
+							  --title=$SITE_TITLE \
+							  --admin_user=$WP_ADMIN \
+							  --admin_password=$(cat $WP_ADMIN_PW_FILE) \
+							  --admin_email=$WP_ADMIN_EMAIL \
+							  --allow-root
 
 # # create a new wordpress user with the credentials from the .env
 # wp user create --allow-root $WP_USER \
