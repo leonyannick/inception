@@ -1,0 +1,91 @@
+name: inception
+
+services:
+  nginx:
+    #use Dockerfile instead of building the container inside compose
+    build: requirements/nginx
+    env_file:
+      - inception.env
+    volumes:
+      - wordpress_volume:/var/www/html
+    restart: unless-stopped
+    #Map the host port 443 to the container port 443 --> HTTPS
+    ports:
+        - 8443:443
+    networks:
+      - inception_network
+    init: true
+    depends_on: 
+      - wordpress
+
+  wordpress:
+    build: requirements/wordpress
+    env_file:
+      - inception.env
+    volumes:
+      - wordpress_volume:/var/www/html
+    # restart: unless-stopped
+    networks:
+      - inception_network
+    init: true
+    environment:
+      SQL_USER_PW_FILE: /run/secrets/db_user_pw
+      WP_USER_PW_FILE: /run/secrets/wp_user_pw
+      WP_ADMIN_PW_FILE: /run/secrets/wp_admin_pw
+    secrets:
+      - db_user_pw
+      - wp_user_pw
+      - wp_admin_pw
+
+  mariadb:
+    build: requirements/mariadb
+    restart: unless-stopped
+    networks:
+      - inception_network
+    init: true
+    env_file:
+      - inception.env
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    environment:
+      SQL_USER_PW_FILE: /run/secrets/db_user_pw
+      SQL_ROOT_PW_FILE: /run/secrets/db_root_pw
+    secrets:
+      - db_user_pw
+      - db_root_pw
+
+
+secrets:
+  db_user_pw:
+    file: ../secrets/db_user_pw.txt
+  db_root_pw:
+    file: ../secrets/db_root_pw.txt
+  wp_user_pw:
+    file: ../secrets/wp_user_pw.txt
+  wp_admin_pw:
+    file: ../secrets/wp_admin_pw.txt
+
+volumes:
+  wordpress_volume:
+    #volume will be managed locally on the host
+    driver: local
+    driver_opts:
+      type: none
+      #directly map the host to the container
+      o: bind
+      #specify the path on the host that will be mounted to the volume
+      device: /home/lbaumann/data/wordpress
+  mariadb_volume:
+    #volume will be managed locally on the host
+    driver: local
+    driver_opts:
+      type: none
+      #directly map the host to the container
+      o: bind
+      #specify the path on the host that will be mounted to the volume
+      device: /home/lbaumann/data/mariadb
+
+
+networks:
+  inception_network:
+    driver: bridge
