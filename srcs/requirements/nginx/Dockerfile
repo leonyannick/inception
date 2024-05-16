@@ -7,7 +7,8 @@ WORKDIR  /
 RUN apt update -y && apt upgrade -y
 
 #install the nginx and openssl
-RUN apt install nginx -y && apt install openssl -y
+RUN apt install -y nginx \
+				  openssl -y
 
 #create self-signed x.509 certificate
 #/etc/ssl/private and /etc/ssl/certs are common places to store these values

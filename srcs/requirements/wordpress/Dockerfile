@@ -17,13 +17,6 @@ RUN apt -y install \
 #copy the wordpressconf from the host machine to the docker container
 COPY ./www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
-# download the wordpress and save it in the container
-# extract wordpress and remove the downloaded archive
-# change ownerchip to root for security reasons
-# RUN wget https://wordpress.org/wordpress-6.3.tar.gz -P .
-# RUN tar -xzf wordpress-6.3.tar.gz && rm -rf wordpress-6.3.tar.gz
-# RUN chown -R root:root /var/www/wordpress
-
 # download the wordpress command line interface (PHAR = PHP Archive)
 # add executable permissions
 # move the cli 
@@ -36,10 +29,6 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 COPY ./wordpress_setup.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/wordpress_setup.sh
 
-#set the working directory to the root inside the container
-# common practice that other sub commands start from a known point
-# WORKDIR /var/www/wordpress
-
-# after the container is created the setup.sh is executed to configure
+# after the container is created the wordpress_setup.sh is executed to configure
 # wordpress
 ENTRYPOINT [ "bash", "/usr/local/bin/wordpress_setup.sh" ]

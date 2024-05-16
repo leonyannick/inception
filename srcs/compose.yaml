@@ -24,7 +24,7 @@ services:
       - inception.env
     volumes:
       - wordpress_volume:/var/www/html
-    # restart: unless-stopped
+    restart: unless-stopped
     networks:
       - inception_network
     init: true

@@ -10,7 +10,8 @@ EXPOSE 3306
 RUN apt update -y && apt upgrade -y
 
 # Install MariaDB:
-RUN apt install mariadb-server -y
+RUN apt install -y mariadb-server \
+				   gettext
 
 # Copy config file from the host machine for mariadb to the /etc of the container
 COPY ./my.cnf /etc/my.cnf
@@ -18,10 +19,12 @@ COPY ./my.cnf /etc/my.cnf
 # Copy setup script from the host machine to the container:
 COPY ./mariadb_setup.sh /usr/local/bin
 
+COPY ./init.sql /etc/mysql/init.sql
+
 # give execution rights to the .sh file
 RUN chmod +x /usr/local/bin/mariadb_setup.sh
 
-RUN	mkdir /run/mysqld
+# RUN	mkdir /run/mysqld
 
 # When the container starts, this script is executed.
 # There a new db and user is created and the service is gets started.
