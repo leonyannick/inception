@@ -16,6 +16,6 @@ Each service has their own Docker container and their interaction is orchastrate
 
 This image shows the structure of the project:
 
-![Project outline](.images/project_outline.png)
+![Project outline](./images/project_outline.png)
 
 
