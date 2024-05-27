@@ -20,8 +20,8 @@ if ! wp core is-installed --allow-root; then
                         --dbhost=$DB_HOST:$DB_HOST_PORT
     fi
 
-	#:8443 only needed for localhost. can later be removed in the vm with the right domain: lbaumann.42.fr
-    wp core install --url=$DOMAIN_NAME:8443 \
+	#:443 only needed for localhost. can later be removed in the vm with the right domain: lbaumann.42.fr
+    wp core install --url=$DOMAIN_NAME \
                     --title=$SITE_TITLE \
                     --admin_user=$WP_ADMIN \
                     --admin_password=$(cat $WP_ADMIN_PW_FILE) \

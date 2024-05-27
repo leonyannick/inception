@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     #Map the host port 443 to the container port 443 --> HTTPS
     ports:
-        - 8443:443
+        - 443:443
     networks:
       - inception_network
     init: true

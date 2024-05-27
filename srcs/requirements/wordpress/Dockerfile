@@ -15,7 +15,7 @@ RUN apt -y install \
 		mariadb-client
 
 #copy the wordpressconf from the host machine to the docker container
-COPY ./www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # download the wordpress command line interface (PHAR = PHP Archive)
 # add executable permissions
@@ -26,7 +26,7 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 
 # copy the setup from the host machine to the container
 # add exec rights to the shell script after moving
-COPY ./wordpress_setup.sh /usr/local/bin
+COPY ./tools/wordpress_setup.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/wordpress_setup.sh
 
 # after the container is created the wordpress_setup.sh is executed to configure

@@ -5,4 +5,4 @@ export SQL_ROOT_PW=$(cat $SQL_ROOT_PW_FILE)
 
 envsubst < /etc/mysql/init.sql > /etc/mysql/init_temp.sql && mv /etc/mysql/init_temp.sql /etc/mysql/init.sql
 
-exec mysqld_safe --bind_address=0.0.0.0
+exec mysqld --bind_address=0.0.0.0

@@ -25,7 +25,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
 
 EXPOSE 443
 
-COPY nginx.conf /etc/nginx/conf.d/server.conf
+COPY ./conf/nginx.conf /etc/nginx/conf.d/server.conf
 
 #daemon off: run nginx in the foreground
 CMD [ "nginx", "-g", "daemon off;" ]
